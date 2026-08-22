@@ -1,0 +1,12 @@
+node_modules
+.next
+out
+.env*.local
+.vercel
+*.tsbuildinfo
+next-env.d.ts
+
+# Raw originals — 27 MB of source files, personal image collection included.
+# Only the optimised copies in public/ are needed to build the site.
+# Keep your own backup of this folder; it is deliberately not published.
+assets-src
