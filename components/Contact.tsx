@@ -97,10 +97,10 @@ export default function Contact() {
       className="relative scroll-mt-24 overflow-hidden px-5 py-28 sm:py-36"
     >
       <div
-        className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[600px] opacity-40 blur-[120px]"
+        className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[600px] opacity-50"
         style={{
           background:
-            'radial-gradient(45% 55% at 50% 100%, var(--color-accent), transparent 70%), radial-gradient(35% 45% at 20% 90%, var(--color-accent2), transparent 70%)',
+            'radial-gradient(64% 66% at 50% 88%, color-mix(in oklab, var(--color-accent) 50%, transparent), transparent 72%), radial-gradient(52% 56% at 18% 82%, color-mix(in oklab, var(--color-accent2) 42%, transparent), transparent 74%)',
         }}
       />
 

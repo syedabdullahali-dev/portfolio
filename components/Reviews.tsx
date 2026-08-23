@@ -184,10 +184,10 @@ export default function Reviews() {
     >
       {/* Ambient wash behind the lanes */}
       <div
-        className="pointer-events-none absolute inset-x-0 top-1/3 -z-10 h-[520px] opacity-30 blur-[130px]"
+        className="pointer-events-none absolute inset-x-0 top-1/3 -z-10 h-[520px] opacity-40"
         style={{
           background:
-            'radial-gradient(50% 50% at 25% 50%, var(--color-accent), transparent 70%), radial-gradient(45% 50% at 78% 45%, var(--color-accent2), transparent 70%)',
+            'radial-gradient(64% 64% at 24% 50%, color-mix(in oklab, var(--color-accent) 40%, transparent), transparent 76%), radial-gradient(58% 62% at 79% 45%, color-mix(in oklab, var(--color-accent2) 34%, transparent), transparent 76%)',
         }}
       />
 

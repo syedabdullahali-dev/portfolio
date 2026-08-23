@@ -206,29 +206,36 @@ export default function ShaderField() {
     // The field drifts slowly enough that half the frames carry all of the
     // motion, and it is on screen the entire visit now — so cap the rate
     // rather than burning a full 60fps of fragment work behind the content.
-    const FRAME_MS = 1000 / 30;
+    // Once it has settled it is a near-flat wash at 38%, so it drops further:
+    // this is fullscreen fragment work sitting under every other section.
+    const FRAME_MS_TOP = 1000 / 30;
+    const FRAME_MS_SETTLED = 1000 / 12;
 
     const start = performance.now();
     let raf = 0;
     let painted = false;
     let lastDraw = 0;
+    // Last frame's settle value picks this frame's interval, which keeps the
+    // scroll read on the draw frames rather than on every animation frame.
+    let eased = 0;
 
     const render = (now: number) => {
       raf = requestAnimationFrame(render);
       if (document.hidden) return;
-      if (now - lastDraw < FRAME_MS) return;
+      const frameMs = FRAME_MS_TOP + (FRAME_MS_SETTLED - FRAME_MS_TOP) * eased;
+      if (now - lastDraw < frameMs) return;
       lastDraw = now;
 
       const elapsed = (now - start) / 1000;
-      // Half the frame rate, so twice the step, or the cursor lag doubles.
+      // Well below the frame rate, so twice the step, or the cursor lag doubles.
       current.x += (target.x - current.x) * 0.09;
       current.y += (target.y - current.y) * 0.09;
 
-      // Read the scroll straight off the window each frame — Lenis moves the
-      // real scroll position, so this stays in step without a listener.
+      // Read the scroll straight off the window — Lenis moves the real scroll
+      // position, so this stays in step without a listener.
       const vh = window.innerHeight || 1;
       const s = Math.min(1, window.scrollY / (vh * SETTLE_SCREENS));
-      const eased = s * s * (3 - 2 * s);
+      eased = s * s * (3 - 2 * s);
 
       gl.uniform1f(uTime, elapsed);
       gl.uniform2f(uMouse, current.x, current.y);
