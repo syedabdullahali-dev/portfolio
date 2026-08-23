@@ -109,7 +109,7 @@ export default function Contact() {
         <Reveal>
           <div className="flex items-center justify-center gap-2.5">
             <span className="animate-float-soft inline-block text-accent2">♥</span>
-            <span className="pixel-label text-[10px] text-muted">06 — Contact</span>
+            <span className="pixel-label text-[10px] text-muted">05 — Contact</span>
           </div>
         </Reveal>
 

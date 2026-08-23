@@ -11,6 +11,12 @@ void main() { gl_Position = vec4(aPos, 0.0, 1.0); }
 /**
  * Domain-warped fbm. Two warp passes give the slow, liquid drift;
  * the cursor nudges the warp centre so the field leans toward the pointer.
+ *
+ * This is the whole page's ground now, not just the hero's, so it is fixed to
+ * the viewport and never unmounts. uDim is what makes that liveable: at the
+ * top the field runs at full strength, and by the time you have scrolled past
+ * the hero it has settled back toward the page's espresso, so text and cards
+ * sit on something calm.
  */
 const FRAG = `
 precision highp float;
@@ -19,6 +25,7 @@ uniform vec2  uRes;
 uniform float uTime;
 uniform vec2  uMouse;
 uniform float uIntro;
+uniform float uDim;
 
 float hash(vec2 p) {
   p = fract(p * vec2(123.34, 456.21));
@@ -87,14 +94,14 @@ void main() {
   col += terra * glow * 0.22;
   col += amber * pow(glow, 3.0) * 0.18;
 
-  // Keep the centre down so the headline stays readable — but only down, not
-  // out; at 0.26 the middle of the hero was going flat.
+  // Keep the centre down so the hero headline stays readable — but only down,
+  // not out; at 0.26 the middle of the hero was going flat.
   float centre = smoothstep(0.0, 0.80, length(p * vec2(0.58, 1.0)));
   col *= mix(0.34, 1.0, centre);
 
-  // Vignette + bottom fade into the page background
+  // Vignette, plus a gentle settle toward the foot of every screen.
   col *= 1.0 - 0.55 * smoothstep(0.40, 1.20, length(p));
-  col *= smoothstep(0.0, 0.38, uv.y * 1.05);
+  col *= mix(0.62, 1.0, smoothstep(0.0, 0.28, uv.y));
 
   // Final chroma lift. Everything above stays inside the lamplit palette; this
   // is what stops the mixes averaging back out to mud.
@@ -103,6 +110,11 @@ void main() {
 
   // Dither to kill banding on large flat gradients
   col += (hash(gl_FragCoord.xy) - 0.5) * 0.012;
+
+  // Settle toward the page ground rather than toward black, so scrolling down
+  // eases the field into the site's own colour instead of punching a dark hole
+  // behind the content.
+  col = mix(deep, col, uDim);
 
   gl_FragColor = vec4(col * uIntro, 1.0);
 }
@@ -119,6 +131,11 @@ function compile(gl: WebGLRenderingContext, type: number, src: string) {
   }
   return sh;
 }
+
+/** How far you scroll before the field has fully settled, in screens. */
+const SETTLE_SCREENS = 1.1;
+/** What is left of the field once it has settled. */
+const SETTLED_STRENGTH = 0.38;
 
 export default function ShaderField() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -163,9 +180,11 @@ export default function ShaderField() {
     const uTime = gl.getUniformLocation(prog, 'uTime');
     const uMouse = gl.getUniformLocation(prog, 'uMouse');
     const uIntro = gl.getUniformLocation(prog, 'uIntro');
+    const uDim = gl.getUniformLocation(prog, 'uDim');
 
-    // Cap the buffer at 1.5x DPR — retina at 3x costs a lot for a blurry field.
-    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    // This runs for the whole visit now rather than just the first screen, so
+    // the buffer is capped tighter than the hero-only version was.
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.25);
     const resize = () => {
       const { clientWidth: w, clientHeight: h } = canvas;
       canvas.width = Math.floor(w * dpr);
@@ -184,27 +203,37 @@ export default function ShaderField() {
     };
     window.addEventListener('mousemove', onMove, { passive: true });
 
-    // Pause when scrolled away — no point burning GPU on an offscreen canvas.
-    let visible = true;
-    const io = new IntersectionObserver(([entry]) => (visible = entry.isIntersecting), {
-      threshold: 0.01,
-    });
-    io.observe(canvas);
+    // The field drifts slowly enough that half the frames carry all of the
+    // motion, and it is on screen the entire visit now — so cap the rate
+    // rather than burning a full 60fps of fragment work behind the content.
+    const FRAME_MS = 1000 / 30;
 
     const start = performance.now();
     let raf = 0;
     let painted = false;
+    let lastDraw = 0;
+
     const render = (now: number) => {
       raf = requestAnimationFrame(render);
-      if (!visible || document.hidden) return;
+      if (document.hidden) return;
+      if (now - lastDraw < FRAME_MS) return;
+      lastDraw = now;
 
       const elapsed = (now - start) / 1000;
-      current.x += (target.x - current.x) * 0.045;
-      current.y += (target.y - current.y) * 0.045;
+      // Half the frame rate, so twice the step, or the cursor lag doubles.
+      current.x += (target.x - current.x) * 0.09;
+      current.y += (target.y - current.y) * 0.09;
+
+      // Read the scroll straight off the window each frame — Lenis moves the
+      // real scroll position, so this stays in step without a listener.
+      const vh = window.innerHeight || 1;
+      const s = Math.min(1, window.scrollY / (vh * SETTLE_SCREENS));
+      const eased = s * s * (3 - 2 * s);
 
       gl.uniform1f(uTime, elapsed);
       gl.uniform2f(uMouse, current.x, current.y);
       gl.uniform1f(uIntro, Math.min(1, elapsed / 1.4)); // fade up on load
+      gl.uniform1f(uDim, 1 - (1 - SETTLED_STRENGTH) * eased);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
 
       // The canvas is opaque black until the first frame lands, which would
@@ -218,7 +247,6 @@ export default function ShaderField() {
 
     return () => {
       cancelAnimationFrame(raf);
-      io.disconnect();
       window.removeEventListener('resize', resize);
       window.removeEventListener('mousemove', onMove);
       gl.getExtension('WEBGL_lose_context')?.loseContext();
@@ -226,7 +254,7 @@ export default function ShaderField() {
   }, [rich]);
 
   return (
-    <div className="absolute inset-0 -z-10 overflow-hidden">
+    <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
       {/* CSS fallback — also what mobile and reduced-motion users get. */}
       <div
         className="absolute inset-0"
@@ -235,13 +263,14 @@ export default function ShaderField() {
             'radial-gradient(72% 52% at 16% 6%, #B2571F, transparent 62%), radial-gradient(62% 48% at 88% 20%, #7A3313, transparent 58%), radial-gradient(52% 40% at 62% 94%, #D9682F, transparent 64%), var(--color-bg)',
         }}
       />
-      {/* Mirrors the shader's centre knock-down, so the headline sits on the
-          same depth of ground whether or not WebGL is running. */}
+      {/* Sits between the fallback and the canvas, so it only ever shows where
+          there is no WebGL. Without it that gradient — drawn for one hero
+          screen — would sit at full strength behind every section of the page. */}
       <div
         className="absolute inset-0"
         style={{
           background:
-            'radial-gradient(46% 44% at 50% 46%, color-mix(in oklab, var(--color-bg) 88%, transparent), transparent 72%)',
+            'radial-gradient(48% 44% at 50% 40%, color-mix(in oklab, var(--color-bg) 92%, transparent), transparent 74%), color-mix(in oklab, var(--color-bg) 58%, transparent)',
         }}
       />
       {rich && (
@@ -252,7 +281,6 @@ export default function ShaderField() {
         />
       )}
       <div className="noise absolute inset-0" />
-      <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-bg" />
     </div>
   );
 }

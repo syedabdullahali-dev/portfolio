@@ -2,7 +2,6 @@
 
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
-import ShaderField from './ShaderField';
 import { site } from '@/data/site';
 
 const NAME = site.name.split(' ');
@@ -27,8 +26,6 @@ export default function Hero() {
       id="top"
       className="relative flex min-h-[100svh] items-center justify-center overflow-hidden px-5 pt-24"
     >
-      <ShaderField />
-
       <motion.div
         style={{ y, opacity, scale }}
         className="relative z-10 mx-auto w-full max-w-4xl text-center"
