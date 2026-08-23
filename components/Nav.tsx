@@ -7,7 +7,6 @@ import { site } from '@/data/site';
 import StackTicker from './StackTicker';
 
 const links = [
-  { href: '#about', label: 'About' },
   { href: '#skills', label: 'Skills' },
   { href: '#work', label: 'Work' },
   { href: '#reviews', label: 'Reviews' },
@@ -65,7 +64,7 @@ export default function Nav() {
           className={clsx(
             'flex w-full max-w-3xl items-center gap-2 rounded-full px-3 py-2 transition-all duration-500',
             scrolled
-              ? 'glass border border-line/80 shadow-[0_8px_40px_-12px_rgba(224,164,88,0.3)]'
+              ? 'glass border border-line/80 shadow-[0_8px_40px_-12px_rgba(239,163,62,0.3)]'
               : 'border border-transparent'
           )}
         >
@@ -137,7 +136,7 @@ export default function Nav() {
           className={clsx(
             'w-full max-w-3xl overflow-hidden rounded-2xl px-2 transition-all duration-500',
             scrolled
-              ? 'glass border border-line/70 shadow-[0_8px_30px_-14px_rgba(224,164,88,0.35)]'
+              ? 'glass border border-line/70 shadow-[0_8px_30px_-14px_rgba(239,163,62,0.35)]'
               : 'border border-transparent'
           )}
         >

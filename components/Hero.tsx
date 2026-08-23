@@ -113,7 +113,7 @@ export default function Hero() {
         >
           <a
             href="#work"
-            className="group relative w-full overflow-hidden rounded-full bg-gradient-to-r from-accent to-accent2 px-7 py-3.5 text-sm font-semibold text-bg shadow-[0_10px_40px_-10px_rgba(224,164,88,0.55)] transition-transform duration-300 hover:scale-[1.04] active:scale-95 sm:w-auto"
+            className="group relative w-full overflow-hidden rounded-full bg-gradient-to-r from-accent to-accent2 px-7 py-3.5 text-sm font-semibold text-bg shadow-[0_10px_40px_-10px_rgba(239,163,62,0.55)] transition-transform duration-300 hover:scale-[1.04] active:scale-95 sm:w-auto"
           >
             <span className="relative z-10">See my work</span>
             <span className="absolute inset-0 -translate-x-full bg-white/25 transition-transform duration-700 group-hover:translate-x-full" />

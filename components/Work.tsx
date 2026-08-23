@@ -164,7 +164,7 @@ export default function Work() {
   return (
     <section id="work" className="relative mx-auto max-w-6xl scroll-mt-24 px-5 py-28 sm:py-36">
       <SectionHeading
-        index="03"
+        index="02"
         eyebrow="Selected work"
         title="Things I made for people who had a deadline."
         subtitle="Three services, three rows — the whole of each, in the order I'd walk you through it."

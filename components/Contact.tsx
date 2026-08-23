@@ -130,7 +130,7 @@ export default function Contact() {
         <Reveal delay={0.4}>
           <a
             href={`mailto:${site.email}?subject=${encodeURIComponent('Project enquiry')}`}
-            className="group relative mt-10 inline-flex items-center gap-3 overflow-hidden rounded-full bg-gradient-to-r from-accent to-accent2 px-8 py-4 text-sm font-semibold text-bg shadow-[0_16px_50px_-12px_rgba(224,164,88,0.6)] transition-transform duration-300 hover:scale-[1.04] active:scale-95"
+            className="group relative mt-10 inline-flex items-center gap-3 overflow-hidden rounded-full bg-gradient-to-r from-accent to-accent2 px-8 py-4 text-sm font-semibold text-bg shadow-[0_16px_50px_-12px_rgba(239,163,62,0.6)] transition-transform duration-300 hover:scale-[1.04] active:scale-95"
           >
             <span className="relative z-10">Start a project</span>
             <span className="relative z-10 transition-transform duration-300 group-hover:translate-x-1">

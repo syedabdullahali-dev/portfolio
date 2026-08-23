@@ -106,7 +106,7 @@ export default function Skills() {
       className="relative mx-auto max-w-6xl scroll-mt-24 px-5 py-28 sm:py-36"
     >
       <SectionHeading
-        index="02"
+        index="01"
         eyebrow="What I do"
         title="Three crafts, one consistent standard."
         subtitle="Hire me for one of these or all three — the advantage of the third option is that nothing gets lost in translation between people."

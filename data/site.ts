@@ -25,10 +25,3 @@ export const clients = [
   'Forma House',
 ] as const;
 
-/** The little status panel on the About card. Edit freely. */
-export const status = {
-  now: 'Super Clankers server art',
-  open: 'Photoshop · Aseprite',
-  coffee: '3 cups',
-} as const;
-

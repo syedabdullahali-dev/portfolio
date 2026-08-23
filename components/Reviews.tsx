@@ -193,7 +193,7 @@ export default function Reviews() {
 
       <div className="mx-auto max-w-6xl px-5">
         <SectionHeading
-          index="04"
+          index="03"
           eyebrow="Kind words"
           title="What it's like to work with me."
           subtitle="Hover any column to hold it still and read properly."

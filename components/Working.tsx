@@ -47,7 +47,7 @@ export default function Working() {
   return (
     <section id="pricing" className="relative mx-auto max-w-5xl scroll-mt-24 px-5 py-28 sm:py-36">
       <SectionHeading
-        index="05"
+        index="04"
         eyebrow="Working together"
         title="What it costs, and how it's paid."
         subtitle="No packages, no hidden extras. Just tell me what you need and what you can spend."
