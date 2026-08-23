@@ -45,7 +45,7 @@ const cards = [
 
 export default function Working() {
   return (
-    <section id="pricing" className="relative mx-auto max-w-5xl scroll-mt-24 px-5 py-24 sm:py-28">
+    <section id="pricing" className="relative mx-auto max-w-5xl scroll-mt-24 px-5 py-28 sm:py-36">
       <SectionHeading
         index="05"
         eyebrow="Working together"
@@ -54,7 +54,7 @@ export default function Working() {
         align="center"
       />
 
-      <div className="mt-14 grid gap-4 sm:grid-cols-2">
+      <div className="mt-16 grid gap-5 sm:grid-cols-2">
         {cards.map((c, i) => (
           <Reveal key={c.key} delay={i * 0.12}>
             <TiltCard strength={6} className="group h-full">

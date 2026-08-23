@@ -9,7 +9,7 @@ import { clients } from '@/data/site';
  */
 export default function Clients() {
   return (
-    <section className="relative px-5 py-4">
+    <section className="relative px-5 py-6">
       <Reveal>
         <div className="mx-auto flex max-w-5xl flex-col items-center gap-5 rounded-3xl border border-line bg-surface/40 px-6 py-7 sm:flex-row sm:gap-8 sm:px-9">
           <span className="pixel-label shrink-0 text-[9px] text-accent">

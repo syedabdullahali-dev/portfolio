@@ -63,29 +63,43 @@ void main() {
   );
   float f = fbm(p * 2.1 + 3.6 * r);
 
-  vec3 deep   = vec3(0.090, 0.071, 0.059);  // #17120F espresso — the page ground
-  vec3 cocoa  = vec3(0.290, 0.180, 0.098);  // #4A2E19 deep cocoa
-  vec3 copper = vec3(0.549, 0.353, 0.180);  // #8C5A2E warm brown
-  vec3 honey  = vec3(0.780, 0.545, 0.271);  // #C78B45 amber highlight
+  vec3 deep  = vec3(0.090, 0.071, 0.059);  // #17120F espresso — the page ground
+  vec3 ember = vec3(0.408, 0.176, 0.078);  // #682D14 burnt ember
+  vec3 terra = vec3(0.788, 0.353, 0.180);  // #C95A2E terracotta
+  vec3 amber = vec3(0.937, 0.639, 0.243);  // #EFA33E amber
+  vec3 flare = vec3(0.980, 0.827, 0.545);  // #FAD38B blush, the brightest veins
 
-  // Layered browns, kept close in value so the field blends into the page
-  // instead of reading as a separate coloured object floating on top.
+  // Four bands rather than three, spread further apart in both value and
+  // chroma. Each one is gated by a smoothstep rather than a linear ramp: that
+  // keeps the troughs of the flow down at espresso and lets only the ridges
+  // climb to amber, which is the difference between lit glass and a flat wash.
   vec3 col = deep;
-  col = mix(col, cocoa,  clamp(f * f * 1.75, 0.0, 1.0));
-  col = mix(col, copper, clamp(length(r) * 0.40, 0.0, 1.0));
-  col = mix(col, honey,  clamp(pow(q.x, 3.0) * 0.42, 0.0, 1.0));
+  col = mix(col, ember, smoothstep(0.30, 0.92, f));
+  col = mix(col, terra, smoothstep(0.55, 1.15, length(r)) * 0.88);
+  col = mix(col, amber, smoothstep(0.62, 0.98, q.x) * 0.82);
+  // Tightest gate of the four, so the highlight stays a thread through the
+  // flow instead of flooding it.
+  col = mix(col, flare, smoothstep(0.80, 1.00, q.y) * 0.50);
 
-  // Soft glow that follows the cursor
+  // Glow that follows the cursor: a broad terracotta wash with a tighter
+  // amber core, so pushing the pointer around visibly heats the field.
   float glow = 1.0 - smoothstep(0.0, 0.85, length(p - uMouse * 0.9));
-  col += copper * glow * 0.10;
+  col += terra * glow * 0.22;
+  col += amber * pow(glow, 3.0) * 0.18;
 
-  // Keep the centre dark so the headline stays readable
+  // Keep the centre down so the headline stays readable — but only down, not
+  // out; at 0.26 the middle of the hero was going flat.
   float centre = smoothstep(0.0, 0.80, length(p * vec2(0.58, 1.0)));
-  col *= mix(0.26, 1.0, centre);
+  col *= mix(0.34, 1.0, centre);
 
   // Vignette + bottom fade into the page background
-  col *= 1.0 - 0.60 * smoothstep(0.40, 1.20, length(p));
+  col *= 1.0 - 0.55 * smoothstep(0.40, 1.20, length(p));
   col *= smoothstep(0.0, 0.38, uv.y * 1.05);
+
+  // Final chroma lift. Everything above stays inside the lamplit palette; this
+  // is what stops the mixes averaging back out to mud.
+  float lum = dot(col, vec3(0.2126, 0.7152, 0.0722));
+  col = clamp(mix(vec3(lum), col, 1.25), 0.0, 1.0);
 
   // Dither to kill banding on large flat gradients
   col += (hash(gl_FragCoord.xy) - 0.5) * 0.012;
@@ -218,7 +232,16 @@ export default function ShaderField() {
         className="absolute inset-0"
         style={{
           background:
-            'radial-gradient(88% 62% at 18% 10%, #6B4526, transparent 62%), radial-gradient(72% 58% at 84% 24%, #4A2E19, transparent 60%), radial-gradient(55% 45% at 58% 88%, #8C5A2E, transparent 66%), var(--color-bg)',
+            'radial-gradient(72% 52% at 16% 6%, #B2571F, transparent 62%), radial-gradient(62% 48% at 88% 20%, #7A3313, transparent 58%), radial-gradient(52% 40% at 62% 94%, #D9682F, transparent 64%), var(--color-bg)',
+        }}
+      />
+      {/* Mirrors the shader's centre knock-down, so the headline sits on the
+          same depth of ground whether or not WebGL is running. */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            'radial-gradient(46% 44% at 50% 46%, color-mix(in oklab, var(--color-bg) 88%, transparent), transparent 72%)',
         }}
       />
       {rich && (

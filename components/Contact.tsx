@@ -141,7 +141,7 @@ export default function Contact() {
         </Reveal>
       </div>
 
-      <div className="mx-auto mt-16 grid max-w-5xl gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mx-auto mt-16 grid max-w-5xl gap-5 sm:grid-cols-2 lg:grid-cols-4">
         {cards.map((c, i) => (
           <Reveal key={c.key} delay={0.12 * i}>
             <TiltCard strength={7} className="group h-full">

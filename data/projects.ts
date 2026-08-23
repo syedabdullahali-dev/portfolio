@@ -13,8 +13,8 @@ export type Project = {
   /** Small MP4 in /public/work/video/ for inline playback. Optional. */
   video?: string;
   tools: string[];
-  /** Featured cards take up 2 columns in the grid. */
-  featured?: boolean;
+  /** Runtime as shown on the phone frame, e.g. '0:34'. Video only. */
+  duration?: string;
   /** Vertical (9:16) media — reels, shorts. Gives the card a portrait frame. */
   portrait?: boolean;
   /** Contain rather than cover — for logos that shouldn't be cropped. */
@@ -36,7 +36,6 @@ export const projects: Project[] = [
     category: 'design',
     image: '/work/design/opt/clankers-banner.webp',
     tools: ['Photoshop', 'Aseprite'],
-    featured: true,
     year: '2026',
   },
   {
@@ -76,11 +75,24 @@ export const projects: Project[] = [
 
   // ── Video ───────────────────────────────────────────────
   {
+    title: 'Infinity Realms — Server Demo',
+    description:
+      'A 34-second vertical walk through the Infinity Realms spawn, cut with large on-screen captions so it still reads with the sound off.',
+    category: 'video',
+    image: '/work/video/infinity-realms.webp',
+    link: 'https://vimeo.com/1220584986',
+    duration: '0:34',
+    tools: ['Premiere Pro'],
+    portrait: true,
+    year: '2026',
+  },
+  {
     title: 'Super Clankers SMP — Promo',
     description: 'A 34-second vertical promo cut for the server: quick pacing, pixel-styled titles and beat-matched cuts.',
     category: 'video',
     image: '/work/video/clankers-smp.webp',
     link: 'https://vimeo.com/1220390993',
+    duration: '0:34',
     tools: ['Premiere Pro', 'After Effects'],
     portrait: true,
     year: '2026',
@@ -91,6 +103,7 @@ export const projects: Project[] = [
     category: 'video',
     image: '/work/video/tulip-smp.webp',
     link: 'https://vimeo.com/1220390998',
+    duration: '0:31',
     tools: ['Premiere Pro'],
     portrait: true,
     year: '2026',
@@ -103,6 +116,7 @@ export const projects: Project[] = [
     category: 'video',
     image: '/work/video/meme-edit.webp',
     link: 'https://vimeo.com/1220403591',
+    duration: '0:24',
     tools: ['Premiere Pro'],
     portrait: true,
     year: '2026',
@@ -117,7 +131,6 @@ export const projects: Project[] = [
     image: '/work/web/aura.webp',
     link: 'https://aura-architecture-fh22-pvgj7hzaz.vercel.app/',
     tools: ['Next.js', 'Tailwind', 'Spline', 'Vercel'],
-    featured: true,
     year: '2026',
   },
   {
@@ -132,9 +145,24 @@ export const projects: Project[] = [
   },
 ];
 
-export const categories = [
-  { id: 'all', label: 'All work' },
-  { id: 'design', label: 'Graphic Design' },
-  { id: 'video', label: 'Video Editing' },
-  { id: 'web', label: 'Landing Pages' },
-] as const;
+/** The three service rows, in the order they stack down the Work section. */
+export const services = [
+  {
+    id: 'design' as const,
+    index: '01',
+    label: 'Graphic Design',
+    note: 'Server banners, logos and social sets, drawn pixel-first so they still read at thumbnail size. Drag the ring to look around it.',
+  },
+  {
+    id: 'video' as const,
+    index: '02',
+    label: 'Video Editing',
+    note: 'Vertical promos cut for the scroll. They play muted here — open one to watch it full size.',
+  },
+  {
+    id: 'web' as const,
+    index: '03',
+    label: 'Landing Pages',
+    note: 'One-page sites with a single clear route through them, built to stay fast on a phone.',
+  },
+];

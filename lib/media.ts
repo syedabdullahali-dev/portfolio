@@ -9,6 +9,8 @@ export function parseVideoUrl(url?: string) {
       kind: 'youtube' as const,
       id: yt[1],
       embed: `https://www.youtube-nocookie.com/embed/${yt[1]}?autoplay=1&rel=0&modestbranding=1`,
+      /** Chromeless, muted, looping — for the phone frames on the Work page. */
+      loop: `https://www.youtube-nocookie.com/embed/${yt[1]}?autoplay=1&mute=1&loop=1&playlist=${yt[1]}&controls=0&modestbranding=1&rel=0&playsinline=1&disablekb=1`,
       poster: `https://i.ytimg.com/vi/${yt[1]}/maxresdefault.jpg`,
     };
   }
@@ -19,6 +21,9 @@ export function parseVideoUrl(url?: string) {
       kind: 'vimeo' as const,
       id: vimeo[1],
       embed: `https://player.vimeo.com/video/${vimeo[1]}?autoplay=1`,
+      /** background=1 strips every control and mutes it, which is what a
+          silently-looping phone screen needs. */
+      loop: `https://player.vimeo.com/video/${vimeo[1]}?background=1&autoplay=1&loop=1&muted=1&autopause=0&dnt=1`,
       poster: `https://vumbnail.com/${vimeo[1]}.jpg`,
     };
   }
