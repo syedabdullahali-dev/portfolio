@@ -31,7 +31,7 @@ export function parseVideoUrl(url?: string) {
   return null;
 }
 
-/** Stable pseudo-random 0-1 from a string, so placeholders never reshuffle. */
+/** Stable pseudo-random 0-1 from a string, so generated avatars never reshuffle. */
 export function seed(str: string) {
   let h = 2166136261;
   for (let i = 0; i < str.length; i++) {

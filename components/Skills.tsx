@@ -144,7 +144,10 @@ export default function Skills() {
                   {p.blurb}
                 </p>
 
-                <ul className="relative mt-6 space-y-2.5 border-t border-line pt-5">
+                <p className="pixel-label relative mt-6 border-t border-line pt-5 text-[9px] text-muted">
+                  What I take on
+                </p>
+                <ul className="relative mt-3.5 space-y-2.5">
                   {p.deliverables.map((d) => (
                     <li key={d} className="flex items-center gap-2.5 text-sm text-muted">
                       <span
