@@ -45,13 +45,17 @@ const cards = [
 
 export default function Working() {
   return (
-    <section id="pricing" className="relative mx-auto max-w-5xl scroll-mt-24 px-5 py-28 sm:py-36">
+    <section
+      id="pricing"
+      className="on-cream relative scroll-mt-24 overflow-hidden py-28 sm:py-36"
+    >
+      <div className="mx-auto max-w-5xl px-5">
       <SectionHeading
         index="04"
         eyebrow="Working together"
         title="What it costs, and how it's paid."
         subtitle="No packages, no hidden extras. Just tell me what you need and what you can spend."
-        align="center"
+        framed
       />
 
       <div className="mt-16 grid gap-5 sm:grid-cols-2">
@@ -106,6 +110,7 @@ export default function Working() {
           </a>
         </p>
       </Reveal>
+      </div>
     </section>
   );
 }

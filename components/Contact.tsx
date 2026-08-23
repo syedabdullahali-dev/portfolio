@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Reveal, { RevealWords } from './Reveal';
-import TiltCard from './TiltCard';
 import { site } from '@/data/site';
 
 const MailIcon = (
@@ -144,16 +143,16 @@ export default function Contact() {
       <div className="mx-auto mt-16 grid max-w-5xl gap-5 sm:grid-cols-2 lg:grid-cols-4">
         {cards.map((c, i) => (
           <Reveal key={c.key} delay={0.12 * i}>
-            <TiltCard strength={7} className="group h-full">
-              <div className="grad-border relative flex h-full flex-col rounded-3xl border border-line bg-surface/60 p-6 transition-colors duration-500 hover:bg-surface">
-                <div
-                  className="pointer-events-none absolute -top-8 right-6 h-24 w-24 rounded-full opacity-0 blur-3xl transition-opacity duration-700 group-hover:opacity-50"
-                  style={{ background: c.accent }}
-                />
-
+            {/* Deliberately the lightest card on the page: these are four ways
+                to reach him, not four things to consider. Tilt, gradient
+                hairline and the glow puck belong to the cards that carry an
+                argument — Skills and Pricing — and giving them to these
+                flattened everything to one level of importance. */}
+            <div className="group h-full">
+              <div className="relative flex h-full flex-col rounded-2xl border border-line bg-surface/35 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-accent/40 hover:bg-surface/70">
                 <div className="relative flex items-center gap-3">
                   <span
-                    className="flex h-10 w-10 items-center justify-center rounded-2xl border border-line bg-surface-2 transition-transform duration-500 group-hover:-rotate-6 group-hover:scale-110"
+                    className="flex h-9 w-9 items-center justify-center rounded-xl border border-line bg-bg-soft"
                     style={{ color: c.accent }}
                   >
                     {c.icon}
@@ -213,7 +212,7 @@ export default function Contact() {
                   </button>
                 </div>
               </div>
-            </TiltCard>
+            </div>
           </Reveal>
         ))}
       </div>

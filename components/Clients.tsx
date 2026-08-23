@@ -72,21 +72,10 @@ export default function Clients() {
 
   return (
     <section
-      className="relative overflow-hidden py-11 sm:py-14"
-      style={{
-        // Warm cream rather than white — the inversion should still read as
-        // the same lamp, turned up.
-        background:
-          'linear-gradient(180deg, #F7E6C6 0%, var(--color-blush) 55%, #E8CEA3 100%)',
-      }}
+      className="on-cream relative overflow-hidden py-11 sm:py-14"
       aria-label="Clients"
     >
-      <p
-        className="pixel-label text-center text-[9px]"
-        style={{ color: 'color-mix(in oklab, var(--color-bg) 64%, transparent)' }}
-      >
-        Worked with
-      </p>
+      <p className="pixel-label text-center text-[9px] text-muted">Worked with</p>
 
       <div
         className="mask-x mt-7 overflow-hidden"
@@ -100,22 +89,12 @@ export default function Clients() {
             <div key={pass} className="flex items-center" aria-hidden={pass === 1}>
               {clients.map((name) => (
                 <span key={`${pass}-${name}`} className="flex items-center">
-                  <span
-                    className="whitespace-nowrap px-7 font-display text-[19px] font-semibold tracking-tight transition-colors duration-300 sm:px-9 sm:text-[26px]"
-                    style={{ color: 'var(--color-bg)' }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.color = 'var(--color-accent2)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.color = 'var(--color-bg)';
-                    }}
-                  >
+                  <span className="whitespace-nowrap px-7 font-display text-[19px] font-semibold tracking-tight text-ink transition-colors duration-300 hover:text-accent2 sm:px-9 sm:text-[26px]">
                     {name}
                   </span>
                   <span
                     aria-hidden
-                    className="h-1.5 w-1.5 shrink-0 rotate-45 rounded-[1px]"
-                    style={{ background: 'var(--color-accent2)', opacity: 0.55 }}
+                    className="h-1.5 w-1.5 shrink-0 rotate-45 rounded-[1px] bg-accent2 opacity-55"
                   />
                 </span>
               ))}

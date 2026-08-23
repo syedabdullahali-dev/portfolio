@@ -71,6 +71,38 @@ body {
   -webkit-backdrop-filter: blur(14px) saturate(130%);
 }
 
+/* ── Cream ground ──────────────────────────────────────
+   The page runs one dark value from the hero down, which reads as a single
+   long tone however well the sections are spaced. Sections marked `on-cream`
+   invert to a lit, papery ground instead.
+
+   It works by re-binding the theme tokens on the subtree rather than by
+   restyling anything: every utility already resolves through var(--color-*),
+   so `text-muted`, `border-line`, `bg-surface` and the rest re-point on their
+   own and a section inverts without touching its markup. Accents darken,
+   because amber on cream is unreadable.
+
+   Use it sparingly — it is the page's loudest signal, so it should mark the
+   two moments that decide something: who he has worked with, and what it
+   costs. */
+.on-cream {
+  --color-bg: #F4E2C0;
+  --color-bg-soft: #EFD9B0;
+  --color-surface: #FBF1DC;
+  --color-surface-2: #F6E7CA;
+  --color-line: #DBBE93;
+  --color-accent: #B4560F;
+  --color-accent-soft: #8A3F0C;
+  --color-accent2: #A8431F;
+  --color-blush: #3A2A1C;
+  --color-ink: #1B1410;
+  --color-muted: #6E5942;
+  color: var(--color-ink);
+  background:
+    radial-gradient(120% 90% at 50% 0%, #F9EACC, transparent 70%),
+    linear-gradient(180deg, #F5E4C4 0%, #F2DCB4 55%, #E9D0A6 100%);
+}
+
 /* Visible focus ring everywhere, in the site's own colours */
 :focus-visible {
   outline: 2px solid var(--color-accent);
