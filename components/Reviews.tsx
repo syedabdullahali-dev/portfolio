@@ -212,7 +212,13 @@ export default function Reviews() {
       </div>
 
       <div className="mx-auto mt-14 max-w-6xl px-5">
-        <div className="grid h-[560px] grid-cols-1 gap-4 sm:h-[620px] sm:grid-cols-2 lg:grid-cols-3">
+        {/* grid-rows-1 matters: without an explicit row the single auto row grows
+            to fit the lanes, so `h-full` on a lane resolved to the full stack of
+            cards and its overflow-hidden clipped nothing. The lanes then ran on
+            past the grid and were cut by the section instead — invisible while
+            everything below was the same dark, obvious the moment the next
+            section became cream. minmax(0,1fr) pins the row to the grid. */}
+        <div className="grid h-[560px] grid-cols-1 grid-rows-1 gap-4 sm:h-[620px] sm:grid-cols-2 lg:grid-cols-3">
           <Column items={lanes[0]} speed={26} direction="up" />
           {/* Middle lane runs the other way for a bit of counter-motion. */}
           <div className="hidden h-full sm:block">
