@@ -20,6 +20,7 @@ export const clients = [
   'Huge SMP',
   'Super Clankers SMP',
   'Tulip Survival',
+  'Infinity Realms',
   'AIMS School SMP',
   'Aura Architecture',
   'Forma House',
