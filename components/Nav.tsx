@@ -74,9 +74,9 @@ export default function Nav() {
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/logo.png"
+              src="/avatar.webp"
               alt=""
-              className="pixelated relative h-8 w-8 rounded-lg border border-line shadow-lg shadow-accent/20 transition-transform duration-500 group-hover:rotate-[-8deg] group-hover:scale-110"
+              className="relative h-8 w-8 rounded-full border border-line object-cover shadow-lg shadow-accent/20 transition-transform duration-500 group-hover:scale-110"
             />
             <span className="hidden sm:inline">{site.shortName}</span>
           </a>

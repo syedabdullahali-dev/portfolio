@@ -1,6 +1,6 @@
 export const site = {
   name: 'Syed Abdullah Ali',
-  shortName: 'Syed',
+  shortName: 'Nifty',
   role: 'Graphic Designer · Video Editor · Web Builder',
   tagline: 'I design, edit and build things that are impossible to scroll past.',
   location: 'Available worldwide · Remote',
