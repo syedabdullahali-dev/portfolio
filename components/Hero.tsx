@@ -3,8 +3,16 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import { site } from '@/data/site';
+import { projects, type Project } from '@/data/projects';
 
 const NAME = site.name.split(' ');
+
+// One piece from each craft, read off the work itself so it can never drift
+// out of date. A visual portfolio whose first screen contains no visuals was
+// the one thing the hero was getting wrong.
+const peek: Project[] = (['design', 'video', 'web'] as const)
+  .map((c) => projects.find((p) => p.category === c && p.image))
+  .filter((p): p is Project => Boolean(p));
 
 const disciplines = ['Graphic Design', 'Video Editing', 'Landing Pages'];
 
@@ -122,22 +130,32 @@ export default function Hero() {
             Work with me
           </a>
         </motion.div>
-      </motion.div>
 
-      {/* Scroll cue */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.7, duration: 1 }}
-        className="absolute bottom-7 left-1/2 z-10 -translate-x-1/2"
-      >
-        <div className="flex h-9 w-[22px] items-start justify-center rounded-full border border-line/80 p-1.5">
-          <motion.span
-            animate={{ y: [0, 10, 0], opacity: [1, 0.2, 1] }}
-            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-            className="h-1.5 w-1 rounded-full bg-accent"
-          />
-        </div>
+        {/* Doubles as the scroll cue the bouncing dot used to be: three
+            thumbnails pointing down into the work say "there is more below"
+            better than an animated pill, and cost one fewer moving thing. */}
+        <motion.a
+          href="#work"
+          aria-label="See the work"
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.45, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          className="group mt-14 inline-flex items-center justify-center gap-3 sm:gap-4"
+        >
+          {peek.map((p) => (
+            <span
+              key={p.title}
+              className="relative block h-14 w-20 overflow-hidden rounded-xl border border-line/80 shadow-[0_14px_34px_-16px_rgba(0,0,0,0.95)] transition-all duration-500 group-hover:-translate-y-1 group-hover:border-accent/45 sm:h-[70px] sm:w-[104px]"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={p.image}
+                alt=""
+                className="h-full w-full object-cover opacity-70 transition-all duration-700 group-hover:scale-[1.06] group-hover:opacity-100"
+              />
+            </span>
+          ))}
+        </motion.a>
       </motion.div>
     </section>
   );

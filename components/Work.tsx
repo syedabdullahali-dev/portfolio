@@ -3,7 +3,6 @@
 import { useMemo, useState, type ReactNode } from 'react';
 import SectionHeading from './SectionHeading';
 import Reveal from './Reveal';
-import TiltCard from './TiltCard';
 import Lightbox from './Lightbox';
 import OrbitGallery from './OrbitGallery';
 import PhoneFrame from './PhoneFrame';
@@ -56,7 +55,7 @@ function WebCard({ project, index }: { project: Project; index: number }) {
 
   return (
     <Reveal delay={index * 0.1}>
-      <TiltCard strength={5} className="group h-full">
+      <div className="group h-full">
         <div
           role="button"
           tabIndex={0}
@@ -121,7 +120,7 @@ function WebCard({ project, index }: { project: Project; index: number }) {
             </div>
           </div>
         </div>
-      </TiltCard>
+      </div>
     </Reveal>
   );
 }
